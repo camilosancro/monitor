@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+Este script recolecta la información del servidor en donde se instale e invoca un servicios rest para su almacenamiento.
+"""
+
 import random, json, subprocess, psutil, requests, platform, socket
 
+#Variable que va a contener la información del servidor
 payload={}
 
+""" Método que llena la información del servidor usando el módulo de plataform """
 def servidor():
     payload['servidor'] = []
     uname = platform.uname()
@@ -22,7 +28,9 @@ def ip_servidor():
     nombre_equipo = socket.gethostname()
     direccion_equipo = socket.gethostbyname(nombre_equipo)
     payload['ip'] = direccion_equipo
-    
+
+""" Métodos que llenan la información de los usuarios y procesos del sistema operativo usando el módulo psutil """
+
 def usuarios():
         payload['usuarios'] = []
         for usuario in psutil.users():
@@ -41,11 +49,16 @@ def procesos():
                 "username": proc.info['username']
             })    
 
+""" Método que sirve parea imprimir el json formado (sirve de validación) """
+
 def print_json():
     datosaprocesar = json.dumps(payload)
     print(datosaprocesar)
 
+""" Método que inova el servicio rest externo """
+
 def post_info():
+    
     #URL DE  SERVICIO REST
     url = 'http://54.236.147.177/registrar'
     #url = 'http://127.0.0.1:8080/registrar'
@@ -55,6 +68,8 @@ def post_info():
 
     if response.status_code == 200:
         print(response.content)
+
+""" Ejecución principal de los metodos iniciales """
 
 if __name__ == "__main__":
     servidor()
