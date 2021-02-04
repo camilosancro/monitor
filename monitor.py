@@ -5,7 +5,7 @@
 Este script recolecta la información del servidor en donde se instale e invoca un servicios rest para su almacenamiento.
 """
 
-import random, json, subprocess, psutil, requests, platform, socket
+import json, psutil, requests, platform, socket
 
 #Variable que va a contener la información del servidor
 payload={}
